@@ -9,9 +9,13 @@ spring:
 ---
 
 spring:
-  profiles:
-    active: local
-    include: oauth
+  config:
+    activate:
+      on-profile:
+        - default
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
   jpa:
     properties:
       hibernate:
@@ -25,12 +29,25 @@ spring:
     username: root
     password: smith1380!
 
+
+
 logging:
   level:
     root: info
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
 ---
 
 spring:
-  profiles:
-    active: production
+  config:
+    activate:
+      on-profile:
+        - production

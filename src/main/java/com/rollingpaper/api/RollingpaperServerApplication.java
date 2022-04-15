@@ -11,5 +11,4 @@ public class RollingpaperServerApplication {
     public static void main(String[] args) {
         SpringApplication.run(RollingpaperServerApplication.class, args);
     }
-
 }

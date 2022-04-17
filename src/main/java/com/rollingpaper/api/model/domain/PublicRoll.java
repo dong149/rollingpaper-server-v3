@@ -21,4 +21,12 @@ public class PublicRoll extends BaseTimeEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Roll roll;
+
+    public PublicRoll(Roll roll) {
+        this.roll = roll;
+    }
+
+    public static PublicRoll from(Roll roll) {
+        return new PublicRoll(roll);
+    }
 }

@@ -5,6 +5,7 @@ import com.rollingpaper.api.model.domain.Roll;
 import com.rollingpaper.api.model.domain.Template;
 import com.rollingpaper.api.model.dto.request.RollRequestDto;
 import com.rollingpaper.api.model.dto.response.RollResponseDto;
+import com.rollingpaper.api.repository.PaperRepository;
 import com.rollingpaper.api.repository.RollRepository;
 import com.rollingpaper.api.repository.TemplateRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RollService {
 
     private final RollRepository rollRepository;
+    private final PaperRepository paperRepository;
     private final TemplateRepository templateRepository;
 
     @Transactional
@@ -32,6 +34,26 @@ public class RollService {
 
         rollRepository.save(roll);
 
-        return RollResponseDto.of(roll);
+        return RollResponseDto.from(roll);
+    }
+
+    @Transactional(readOnly = true)
+    public RollResponseDto getRollResponseDto(Long id) {
+        Roll roll = findRoll(id);
+        Integer paperCount = paperRepository.countByRollIdAndDeletedAtIsNull(roll.getId());
+
+        return RollResponseDto.of(roll, paperCount);
+    }
+
+    private Roll findRoll(Long id) {
+        Roll roll = rollRepository.findById(id).orElseThrow(() -> {
+            throw new NotExistContentException("not exist roll");
+        });
+
+        if (roll.getDeletedAt() != null) {
+            throw new NotExistContentException("deleted content");
+        }
+
+        return roll;
     }
 }

@@ -15,11 +15,18 @@ public class RollResponseDto {
     private Integer templateId;
     private Integer paperCount;
 
-    public static RollResponseDto of(Roll roll) {
+    public static RollResponseDto from(Roll roll) {
         return RollResponseDto.builder()
                               .rollId(roll.getId())
                               .createdAt(roll.getCreatedAt())
                               .updatedAt(roll.getUpdatedAt())
+                              .build();
+    }
+
+    public static RollResponseDto of(Roll roll, Integer paperCount) {
+        return RollResponseDto.builder()
+                              .rollId(roll.getId())
+                              .paperCount(paperCount)
                               .build();
     }
 }

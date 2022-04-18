@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,4 +23,10 @@ public class Sticker extends BaseTimeEntity {
     private String imageKey;
     @OneToMany(mappedBy = "sticker", fetch = FetchType.LAZY)
     private Set<TemplateSticker> templateStickers;
+
+    @Builder
+    public Sticker(String imageKey, Set<TemplateSticker> templateStickers) {
+        this.imageKey = imageKey;
+        this.templateStickers = templateStickers;
+    }
 }
